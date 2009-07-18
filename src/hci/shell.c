@@ -33,7 +33,7 @@ FILE_LICENCE ( GPL2_OR_LATER );
 
 /** The shell prompt string */
 static const char shell_prompt[] = "gPXE> ";
-
+extern int incomplete;
 /** Flag set in order to exit shell */
 static int exit_flag = 0;
 
@@ -90,10 +90,9 @@ struct command help_command __command = {
  */
 void shell ( void ) {
 	char *line;
-
 	exit_flag = 0;
 	while ( ! exit_flag ) {
-		line = readline ( shell_prompt );
+		line = readline ( shell_prompt + ( incomplete ? 4 : 0 ) );
 		if ( line ) {
 			system ( line );
 			free ( line );

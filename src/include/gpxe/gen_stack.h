@@ -97,4 +97,17 @@ extern int stack_size ( struct stack *stack );
 	( stack )->list.next = ( stack )->list.prev = &( stack )->list;	\
 } while ( 0 )
 
+/**
+ * Deallocate a stack when all elements are struct strings
+ * @v stack	Pointer to the struct stack
+ */
+#define free_stack_string( stack ) do {					\
+	struct stack_element *_element, *_temp;				\
+	stack_for_each_safe ( _element, _temp, stack ) {		\
+		free_string ( ( struct string * ) _element->data );	\
+		free ( _element );					\
+	}								\
+	( stack )->list.next = ( stack )->list.prev = &( stack )->list;	\
+} while ( 0 )
+
 #endif
