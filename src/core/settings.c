@@ -1414,6 +1414,14 @@ struct setting filename_setting __setting = {
 	.type = &setting_type_string,
 };
 
+/** Input box setting */
+struct setting input_setting __setting = {
+.name = "input",
+.description = "Input box value",
+.tag = DHCP_EB_USERNAME,
+.type = &setting_type_string,
+};
+
 /** Root path setting */
 struct setting root_path_setting __setting = {
 	.name = "root-path",
