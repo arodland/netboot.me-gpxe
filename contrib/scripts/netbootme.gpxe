@@ -1,3 +1,3 @@
 #!gpxe
 autoboot
-chain http://www.netboot.me/menu.gpxe
+chain http://www.netboot.me/menu.gpxe?pxe=gpxe-custom&ver=0.1
