@@ -42,19 +42,22 @@ FILE_LICENCE ( GPL2_OR_LATER );
 /* Screen layout */
 #define INPUT_LABEL_ROW	11
 #define INPUT_ROW		13
-#define LABEL_COL		36
+#define LABEL_CENTER		40
 #define EDITBOX_COL		30
 #define EDITBOX_WIDTH		20
 
-int input_ui ( char *prompt ) {
-	char input[64];
+int input_ui ( char *setting_name, char *prompt ) {
+	char input[256];
 	struct edit_box input_box;
 	int key;
 	int rc = -EINPROGRESS;
+  int label_col = LABEL_CENTER - strlen ( prompt ) / 2;
+  
+  if ( label_col < 0 )
+    label_col = 0;
 
-	/* Fetch current setting values */
-	fetch_string_setting ( NULL, &input_setting, input,
-			       sizeof ( input ) );
+	/* Fetch current setting value */
+  fetchf_named_setting ( setting_name, input, sizeof ( input ) );
 
 	/* Initialise UI */
 	initscr();
@@ -68,7 +71,7 @@ int input_ui ( char *prompt ) {
 	/* Draw initial UI */
 	erase();
 	color_set ( CPAIR_LABEL, NULL );
-	mvprintw ( INPUT_LABEL_ROW, LABEL_COL, prompt );
+	mvprintw ( INPUT_LABEL_ROW, label_col, prompt );
 	color_set ( CPAIR_EDITBOX, NULL );
 	draw_editbox ( &input_box );
 
@@ -101,8 +104,7 @@ int input_ui ( char *prompt ) {
 		return rc;
 
 	/* Store settings */
-	if ( ( rc = store_setting ( NULL, &input_setting, input,
-				    strlen ( input ) ) ) != 0 )
+	if ( ( rc = storef_named_setting ( setting_name, input ) ) != 0 )
 		return rc;
 
 	return 0;

@@ -235,7 +235,6 @@ extern struct setting dns_setting __setting;
 extern struct setting domain_setting __setting;
 extern struct setting hostname_setting __setting;
 extern struct setting filename_setting __setting;
-extern struct setting input_setting __setting;
 extern struct setting root_path_setting __setting;
 extern struct setting username_setting __setting;
 extern struct setting password_setting __setting;
