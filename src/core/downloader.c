@@ -133,11 +133,17 @@ static void downloader_job_kill ( struct job_interface *job ) {
 	downloader_finished ( downloader, -ECANCELED );
 }
 
+static void downloader_job_progress ( struct job_interface *job,
+	struct job_progress *progress ) {
+	/* Pass it on */
+	( job_get_dest(job)->op->progress )( job, progress );
+}
+
 /** Downloader job control interface operations */
 static struct job_interface_operations downloader_job_operations = {
 	.done		= ignore_job_done,
 	.kill		= downloader_job_kill,
-	.progress	= ignore_job_progress,
+	.progress	= downloader_job_progress,
 };
 
 /****************************************************************************
